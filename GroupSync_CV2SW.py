@@ -151,7 +151,7 @@ all_components = get_components_ip()
 if isinstance(all_components, dict):
     df = pd.DataFrame(list(all_components.items()), columns=["ip", "label"])
     df.to_csv('nir.csv', index=False)
-print(all_components)
+print(red(all_components))
 
 # List of all Groups in Cyber Vision
 
@@ -163,7 +163,7 @@ def main():
     id_name = group
     print(f"Group Name:{group}: {x}")
     update_IP_hostgorup(id_group, id_name, x)
-    print(green(f"Endpoints from Cyber Vision group {group} import to SNA host group"))
+    print(green(f"Endpoints from Cyber Vision group **{group}** import to SNA host group"))
     
 
 if __name__ == "__main__":
