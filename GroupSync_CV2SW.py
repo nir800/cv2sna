@@ -12,6 +12,7 @@ and updating a SNA host group with a list of IP addresses.
 
 
 import requests
+from requests.auth import HTTPBasicAuth
 from urllib3.exceptions import InsecureRequestWarning
 import ipaddress
 import pandas as pd
@@ -20,6 +21,7 @@ import pandas as pd
 import logging
 import json
 from crayons import blue, red, green
+from dotenv import dotenv_values
 logging.basicConfig(filename="log.log", level=logging.INFO)
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -29,10 +31,29 @@ center_ip = "192.168.103.49"
 center_port = 443
 center_base_url = "api/3.0"
 
-## Login to SMC ##
-url = "https://192.168.103.16/token/v2/authenticate"
+# Import env variables from dotenv
 
-payload = 'username=admin&password=1q2w3e4rT'
+config = dotenv_values(".env")
+
+BASE_URL = config.get("BASE_URL")
+USERNAME = config.get("USERNAME")
+PASSWORD = config.get("PASSWORD")
+
+CV_TOKEN = config.get("CV_TOKEN")
+CV_IP = config.get("CV_IP")
+SMC_IP = config.get("SMC_IP")
+SMC_USER = config.get("SMC_USER")
+SMC_PASSWORD = config.get("SMC_PASSWORD")
+
+# STATIC URLs
+SMC_AUTH_URL = '/token/v2/authenticate'
+DEVICES_URL = '/dna/intent/api/v1/network-device'
+IMAGE_URL = '/dna/intent/api/v1/image/importation?isTaggedGolden=TRUE'
+
+
+## Login to SMC ##
+url = f"https://{SMC_IP}{SMC_AUTH_URL}"
+payload = 'username=' + SMC_USER + "&" + 'password=' +SMC_PASSWORD
 headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded'
