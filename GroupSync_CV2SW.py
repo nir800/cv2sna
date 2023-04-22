@@ -190,6 +190,6 @@ if __name__ == "__main__":
     now = datetime.datetime.now()
     formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
     logging.info(f"Service run: {formatted_time}")
-    print(blue(f"Done!!!  {formatted_time}"))
+    print(blue(f"\n==>Done!!!  {formatted_time}"))
    
 
