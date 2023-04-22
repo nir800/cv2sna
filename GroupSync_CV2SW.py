@@ -20,6 +20,7 @@ import ipaddress
 import pandas as pd
 import logging
 import json
+import datetime
 from crayons import blue, red, green
 from dotenv import dotenv_values
 logging.basicConfig(filename="log.log", level=logging.INFO)
@@ -185,5 +186,9 @@ def main():
 
 if __name__ == "__main__":
     main()
-    print(blue(f"Done!!!"))
+    now = datetime.datetime.now()
+    formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+    logging.info(f"Service run: {formatted_time}")
+    print(blue(f"Done!!!  {formatted_time}"))
+   
 
