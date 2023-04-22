@@ -1,5 +1,5 @@
 
-__version__ = "1.1.1.1"
+__version__ = "1.2"
 __author__ = "Nir Rephael"
 __author_email__ = "nir-r@bynet.co.il"
 
@@ -26,11 +26,6 @@ from dotenv import dotenv_values
 logging.basicConfig(filename="log.log", level=logging.INFO)
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-## Login to Cyber Vision ##
-center_token = "ics-9505c0fede9afeb87f0820ac7266c2afe13ef4ca-5b81c2c0c1740e925f480e5e398c6f612e2eec71"
-center_ip = "192.168.103.49"
-center_port = 443
-center_base_url = "api/3.0"
 
 # Import env variables from dotenv
 
@@ -44,9 +39,9 @@ SMC_PASSWORD = config.get("SMC_PASSWORD")
 
 # STATIC URLs
 SMC_AUTH_URL = '/token/v2/authenticate'
-DEVICES_URL = '/dna/intent/api/v1/network-device'
-IMAGE_URL = '/dna/intent/api/v1/image/importation?isTaggedGolden=TRUE'
-
+SMC_TAG_URL = '/smc-configuration/rest/v1/tenants/301/tags/'
+CV_PORT = 443
+CV_BASE_URL = "api/3.0"
 
 ## Login to SMC ##
 url = f"https://{SMC_IP}{SMC_AUTH_URL}"
@@ -84,9 +79,9 @@ def is_valid_ipv4_address(address):
 
 def get_components_ip():
     try:
-        headerscv = {"x-token-id": center_token}
+        headerscv = {"x-token-id": CV_TOKEN}
         r_get = requests.get(
-            f"https://{center_ip}:{center_port}/{center_base_url}/components", headers=headerscv, verify=False)
+            f"https://{CV_IP}:{CV_PORT}/{CV_BASE_URL}/components", headers=headerscv, verify=False)
         r_get.raise_for_status()  # if there are any request errors
 
         # raw JSON data response
@@ -125,9 +120,9 @@ def get_ip_from_group(group_name: str):
 
 # Getting Group ID from Host Group
 
-
+ 
 def get_hostgroup_id(host_group_name: str):
-    url = "https://192.168.103.16/smc-configuration/rest/v1/tenants/301/tags/"
+    url=f"https://{SMC_IP}{SMC_TAG_URL}"
     payload = {}
     response = requests.request(
         "GET", url, headers=headers, data=payload, verify=False)
@@ -138,10 +133,11 @@ def get_hostgroup_id(host_group_name: str):
         if name == host_group_name:
             return id
 
-
+# url = "https://192.168.103.16/smc-configuration/rest/v1/tenants/301/tags/"
 # Update Host Group with IP List
 def update_IP_hostgorup(id_group, id_name, ip_list):
-    url = "https://192.168.103.16/smc-configuration/rest/v1/tenants/301/tags/" + \
+    
+    url=f"https://{SMC_IP}{SMC_TAG_URL}" + \
         str(id_group)
     payload = {
         "id": id_group,
