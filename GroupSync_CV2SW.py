@@ -144,7 +144,7 @@ def update_IP_hostgorup(id_group, id_name, ip_list):
         "name": id_name,
         "location": "INSIDE",
         "ranges": ip_list,
-        "description": "This is sample from Python",
+        "description": "Dynmaic update from Python Script",
         "hostBaselines": False,
         "suppressExcludedServices": True,
         "inverseSuppression": False,
