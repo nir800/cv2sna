@@ -35,10 +35,6 @@ center_base_url = "api/3.0"
 
 config = dotenv_values(".env")
 
-BASE_URL = config.get("BASE_URL")
-USERNAME = config.get("USERNAME")
-PASSWORD = config.get("PASSWORD")
-
 CV_TOKEN = config.get("CV_TOKEN")
 CV_IP = config.get("CV_IP")
 SMC_IP = config.get("SMC_IP")
