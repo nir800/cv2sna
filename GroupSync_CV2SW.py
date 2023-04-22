@@ -10,7 +10,7 @@ The script defines functions for validating IPv4 addresses, getting all IP addre
 and updating a SNA host group with a list of IP addresses.
 """
 
-
+from cryptography.fernet import Fernet
 import requests
 from requests.auth import HTTPBasicAuth
 from urllib3.exceptions import InsecureRequestWarning
@@ -26,16 +26,21 @@ from dotenv import dotenv_values
 logging.basicConfig(filename="log.log", level=logging.INFO)
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+# This is the key to decrypt password 
+key = b'oen-jEUBkzcMd7N8fg7z1vTB6iB36qIpaZMqDYjzbe4='
+fernet = Fernet(key)
 
 # Import env variables from dotenv file .env 
 
-config = dotenv_values(".env")
+config = dotenv_values("1.env")
 
 CV_TOKEN = config.get("CV_TOKEN")
 CV_IP = config.get("CV_IP")
 SMC_IP = config.get("SMC_IP")
 SMC_USER = config.get("SMC_USER")
 SMC_PASSWORD = config.get("SMC_PASSWORD")
+decrypted_data = fernet.decrypt(SMC_PASSWORD)
+DECRYPT_SMC_PASSWORD = decrypted_data.decode('utf-8')
 
 # STATIC URLs
 SMC_AUTH_URL = '/token/v2/authenticate'
@@ -45,7 +50,7 @@ CV_BASE_URL = "api/3.0"
 
 ## Login to SMC ##
 url = f"https://{SMC_IP}{SMC_AUTH_URL}"
-payload = 'username=' + SMC_USER + "&" + 'password=' +SMC_PASSWORD
+payload = 'username=' + SMC_USER + "&" + 'password=' + DECRYPT_SMC_PASSWORD
 headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded'
