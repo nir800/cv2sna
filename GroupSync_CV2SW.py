@@ -27,7 +27,7 @@ logging.basicConfig(filename="log.log", level=logging.INFO)
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
-# Import env variables from dotenv
+# Import env variables from dotenv file .env 
 
 config = dotenv_values(".env")
 
