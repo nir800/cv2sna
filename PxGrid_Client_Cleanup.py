@@ -7,6 +7,7 @@ import ssl
 import websocket
 import re
 import mab_cleanup
+import datetime
 from crayons import blue, red, green
 from base64 import b64encode
 from time import sleep
@@ -91,6 +92,9 @@ def on_message(wsapp,message):
               
 
         # Print the values
+        now = datetime.datetime.now()
+        formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+        print(red(f"Time is: {formatted_time}"))
         print(green(f"\n==>State is:{state}"))
         print(green(f"\n==>MAC is:{mac_address}"))
         print(green(f"\n==>Endpoint Profile is:{endpoint_profile}"))
@@ -118,7 +122,7 @@ def delete_mac(mac: str, cleanup_groups: list):
     endpoint_id, endpoint_group_id = mab_cleanup.get_endpoint_by_mac(mac)
     print(f"Endpoint ID for MAC {mac} is: {endpoint_id}, Group ID is: {endpoint_group_id}")
     if cleanup_groups == [] or endpoint_group_id in cleanup_groups:
-        print ("We can delete the MAC from:" + endpoint_group_id )
+        print ("MAC is deleted from Group ID:" + endpoint_group_id )
         mab_cleanup.delete_endpoint(endpoint_id)
     else:
         print(f"Group {endpoint_group_id} is not in the cleanup group list. Ignoring.")

@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+from crayons import blue, red, green
 from time import time
 from requests.auth import HTTPBasicAuth
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -91,7 +92,9 @@ def delete_endpoint(endpoint_id: str):
     if response.status_code != 204:
         print(f"Error deleting endpoint {endpoint_id}: {response.text}")
     else:
-        print(f"Successfully deleted {endpoint_id}")
+        print(red(f"Successfully deleted {endpoint_id}"))
+       
+
 
 if __name__ == "__main__":
     # Gather relevant cleanup groups
