@@ -77,7 +77,9 @@ def on_message(wsapp,message):
     now = datetime.datetime.now()
     formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
     print(red(f"Time is: {formatted_time}"))
-    print(my_string)
+    print(green(f"{my_string}"))
+    print(red(f"=============================================================================================="))
+                
               
  
         
