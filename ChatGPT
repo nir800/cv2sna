@@ -1,0 +1,22 @@
+import os
+import openai
+from dotenv import load_dotenv
+load_dotenv()
+api_key=os.getenv('OPEN_AI_KEY')
+print(api_key)
+openai.api_key=api_key
+
+# models= openai.Model.list()
+# print(models)
+# Send request to ChatGPT
+model = "text-davinci-002"
+prompt = "What command to show interface cisco switch?"
+
+response = openai.Completion.create(
+    engine=model,
+    prompt=prompt,
+    n=1
+)
+print(response)
+generated_text= response.choices[0].text.strip()
+print(generated_text)
