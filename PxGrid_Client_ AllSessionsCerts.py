@@ -1,10 +1,9 @@
-# Nir Rephael - Get All Sessions
-# Account Approved. Password is T4u78yj1A2jcLPnh
+# Nir Rephael - Get all active sessions using pxgrid and client certificate
+
 
 import json
 import requests
 import ssl
-
 import datetime
 from crayons import blue, red, green
 from base64 import b64encode
@@ -15,6 +14,8 @@ requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 
 # verify=".rootca.cer"
+# Create pxgrid client account by using client certificate 
+# client name is pxgrid1
 while True:
     r=requests.post(f"https://ise32.cyber.lab:8910/pxgrid/control/AccountActivate",
         cert=("pxgrid1.cer","pxgrid2.key"),
@@ -59,7 +60,11 @@ json_response=r.json()
 secret=r.json()["secret"]
 print(f"Secret is: {secret}")
 print(red(f"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"))
+
+
+
 ##### *****Getting All Sessions****** 
+# Using API to get all active session, using the secret.
 r=requests.post(f"{RestBaseURL}/getSessions",
                 verify=False,
                 auth=("pxgrid1",secret),
