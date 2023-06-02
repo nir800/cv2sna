@@ -13,7 +13,7 @@ import pandas as pd
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
-password="1q2w3e4rT"
+
 # verify=".rootca.cer"
 while True:
     r=requests.post(f"https://ise32.cyber.lab:8910/pxgrid/control/AccountActivate",
