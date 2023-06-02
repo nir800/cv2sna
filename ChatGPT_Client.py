@@ -7,7 +7,8 @@ load_dotenv()
 openai.api_key = os.getenv("OPEN_AI_KEY")
 
 question = input('What is your question: ')
-
+# model="text-davinci-003"
+# model="gpt-3.5-turbo"
 response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
