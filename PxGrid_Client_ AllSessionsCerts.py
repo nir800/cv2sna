@@ -1,4 +1,4 @@
-# Nir Rephael - Get all active sessions using pxgrid and client certificate
+# Nir Rephael - Get all active sessions using pxgrid with client certificate authentication
 
 
 import json
@@ -32,6 +32,7 @@ while True:
     sleep(60)
 
 ##### *****Service Lookup****** 
+## This is example of session topic handle by monitoring persona ##
 r=requests.post("https://ise32.cyber.lab:8910/pxgrid/control/ServiceLookup",
                 cert=("pxgrid1.cer","pxgrid2.key"),
                 verify=False,
@@ -64,7 +65,7 @@ print(red(f"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 ##### *****Getting All Sessions****** 
-# Using API to get all active session, using the secret.
+# Using API to get all active session, using the secret (AccessSecret).
 r=requests.post(f"{RestBaseURL}/getSessions",
                 verify=False,
                 auth=("pxgrid1",secret),
@@ -94,5 +95,5 @@ for session in sessions:
     print("nasPortId:", nasPortId)
     print("IP Address:", ipAddresses)
     print()
-print(red(f"Number of actvice endpoints:{count}"))
+print(red(f"Number of active endpoints:{count}"))
 
