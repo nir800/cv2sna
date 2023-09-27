@@ -10,7 +10,7 @@ __pycache__/
 .cer
 # C extensions
 *.so
-
+config.json
 # Distribution / packaging
 .Python
 build/
