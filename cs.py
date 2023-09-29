@@ -61,7 +61,7 @@ print("Access Token:", access_token)
 # curl -X GET "https://api.us-2.crowdstrike.com/devices/queries/devices-scroll/v1" -H  "accept: application/json" -H  "authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InB1YmxpYzo3ODdlZjkxZC01YzMxLTQ3YzktYjg0Ni1kNDIzNTk1M2FmYWEiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOltdLCJjbGllbnRfaWQiOiJlYzYxYjFhOTE2OTQ0YzdjYmM3Y2Y5N2JhYTA5NDMwOSIsImV4cCI6MTY5NTc0Njc3NSwiZXh0Ijp7InN1Yl90eXBlIjoiY2xpZW50In0sImlhdCI6MTY5NTc0NDk3NSwiaXNzIjoiaHR0cHM6Ly9hcGkuY3Jvd2RzdHJpa2UuY29tLnRvZG8vIiwianRpIjoiYzBhNTEyZDYtY2FmNC00MDdkLTkwMjctYzFmZjQwMDRhYTQ0IiwibmJmIjoxNjk1NzQ0OTc1LCJzY3AiOltdLCJzdWIiOiJlYzYxYjFhOTE2OTQ0YzdjYmM3Y2Y5N2JhYTA5NDMwOSIsInN1Yl90eXBlIjoiY2xpZW50In0.GSJJwFB2Xqt41XUDlOM7Ihs8Aknn6n1z9eRkhcbgocdjcxkN6euk95ZqiQQTZm9j-nZQkAqluZ3qBAxIgrfHW520W35ytGJRKidpyKTXOoOiIhf41XV1ySYZ4j68haaLuBTcloKbG5ERB4OhosA006-Cj5ZVFrBbkA-eLr_anX1sjDioWY3h-tw4oK0z60kAEMhLidMLRPfkfLyg358CCzXfijbqhElHP89a0fN_p9PMH1oQmHxjKsadaLQADAtaUB0rI99BAoC8_KN5L1OZOpY75sZyDeuicm4LsVCalj93qS8kiCO7W9Gp6rvLk9MAzdHTlrLXpnzYoN_xydlXxEeBnjyk8J7ypMowU3HPyn7MCoQVmthiIbOYQbRMRyw8YGQtN0BcX3FjWygbETJVEbekB4QbfwJrkLK95r9xbZuwEZw694dI2Vx-1R9SquGw-nQuOpNtjpTghRunCWzk_9pKUjAjzsnaHhg5vNdi1bWBbfW01MMQ2fgp7QMwseyG9NQLoIw5JiFw7jzRgzcjPwfklwAp8H-nNrMHrRaqx2bLY66IhsyZSRu5WWCxayKkzuWURRhN9jsRzWqWydBrZ1DMFwP1M4PFNBfJbo1vjSdUC3gLYvzW7LZBnnuzdYeC0WR3vzUbOqKRHXtvs7-lkCZnibgT9i7A5p41tnjsVJA"
 # url = "https://api.us-2.crowdstrike.com/falcon-complete-dashboards/queries/detects/v1" 
 # url = "https://api.crowdstrike.com/detects/queries/detects/v1?limit=1000"
-url = "https://api.eu-1.crowdstrike.com/detects/queries/detects/v1?limit=100"
+url = "https://api.eu-1.crowdstrike.com/detects/queries/detects/v1?status=in_progress"
 # url = "https://api.eu-1.crowdstrike.com/falcon-complete-dashboards/queries/detects/v1"
 
 
@@ -80,6 +80,9 @@ if response.status_code == 200:
     response_data = response.json()
     # Process the response data as needed
     print("Response Data:", response_data)
+    ldt_values = response_data['resources']
+    for ldt in ldt_values:
+        print(ldt)
 else:
     # Request failed
     print("Request failed with status code:", response.status_code)
