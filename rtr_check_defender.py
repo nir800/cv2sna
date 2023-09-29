@@ -1,4 +1,7 @@
-
+""" This script is using Falcon RTR to run powershell script to bulk computer list.
+In example, there is a search for computers running MS defender.
+Nir Rephael - Version 1.2
+"""
 import requests
 from requests.auth import HTTPBasicAuth
 from urllib3.exceptions import InsecureRequestWarning
@@ -11,16 +14,17 @@ from falconpy import Hosts, RealTimeResponse, RealTimeResponseAdmin
 from argparse import ArgumentParser, RawTextHelpFormatter
 
 
+# Access to flacon OAuth2 API with client ID and Secrect.
+# .env2 file is exclude from github publishing 
 
 config = dotenv_values(".env2")
-
 CLIENT_ID = config.get("client_id")
 CLIENT_SECRET = config.get("secret_key")
 
 BOLD = "\033[1m"
 NOCOLOR = "\033[0m"
 
-
+# Below powershell/command input in order to parse a result for each computer from bulk computer list.
 COMMAND = "powershell Get-MpComputerStatus"
 TIMEOUT=30
 
