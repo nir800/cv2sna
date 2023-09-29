@@ -93,13 +93,13 @@ def cs_get_info(HOST_MATCH):
     if cloud_request["status_code"] == 201:
         results = cloud_request["body"]["combined"]["resources"]
         for result in results:
-            print(f"{BOLD}\n{device_map[result]}{NOCOLOR}")
+            print(yellow(f"\n{BOLD}{device_map[result]}"))
             out_data = results[result]
             if out_data["stdout"]:
                 lines = out_data["stdout"].strip().split('\n')
             for line in lines:
                 if "AMRunningMode" in line or "RealTimeProtectionEnabled" in line:
-                    print(line)
+                    print(green(line))
                     
             if out_data["stderr"]:
                 print(out_data["stderr"])
