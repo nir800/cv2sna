@@ -98,7 +98,7 @@ def fetch_crowdstrike_data(ids):
         table = PrettyTable()
 
         # Define the table columns
-        table.field_names = ["Hostname", "Status", "Local IP",  "Technique", "CMD Line", "Filename", "Severity", "Parent CMD"]
+        table.field_names = ["Hostname",  "Local IP", "Status",  "Technique", "CMD Line", "Filename", "Severity", "Parent CMD"]
 
         # Add data to the table
         table.add_row([hostname, local_ip, status, technique, cmdline, filename, severity, parent_cmdline])
