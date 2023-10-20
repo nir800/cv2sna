@@ -9,6 +9,7 @@ __pycache__/
 .env3
 .key
 .cer
+output.txt
 # C extensions
 *.so
 config.json

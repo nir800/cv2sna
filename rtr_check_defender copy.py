@@ -1,7 +1,3 @@
-""" This script is using Falcon RTR to run powershell script to bulk computer list.
-In example, there is a search for computers running MS defender.
-Nir Rephael - Version 1.2
-"""
 import requests
 from requests.auth import HTTPBasicAuth
 from urllib3.exceptions import InsecureRequestWarning
@@ -13,9 +9,8 @@ import os
 from falconpy import Hosts, RealTimeResponse, RealTimeResponseAdmin
 from argparse import ArgumentParser, RawTextHelpFormatter
 
-
-# Access to flacon OAuth2 API with client ID and Secrect.
-# .env2 file is exclude from github publishing 
+# Access to flacon OAuth2 API with client ID and Secret.
+# .env2 file is excluded from GitHub publishing
 
 config = dotenv_values(".env2")
 CLIENT_ID = config.get("client_id")
@@ -24,22 +19,19 @@ CLIENT_SECRET = config.get("secret_key")
 BOLD = "\033[1m"
 NOCOLOR = "\033[0m"
 
-# Below powershell/command input in order to parse a result for each computer from bulk computer list.
+# Below PowerShell/command input in order to parse a result for each computer from a bulk computer list.
 COMMAND = "powershell Get-MpComputerStatus"
-TIMEOUT=30
-output_file = "output.txt"
+TIMEOUT = 30
 
 # Connect to the CrowdStrike API service collections
-hosts = Hosts(client_id=CLIENT_ID,
-              client_secret=CLIENT_SECRET
-              )
+hosts = Hosts(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 rtr = RealTimeResponse(auth_object=hosts.auth_object)
 rtr_admin = RealTimeResponseAdmin(auth_object=hosts.auth_object)
-HOST_MATCH=""
+HOST_MATCH = ""
 
 def cs_get_info(HOST_MATCH):
     # Retrieve a list of host AIDs that match our search string
-    host_ids = hosts.query_devices_by_filter(filter=f"hostname:*'*{HOST_MATCH}*'")
+    host_ids = hosts.query_devices_by_filter(filter=f"hostname:*'{HOST_MATCH}*'")
     if host_ids["status_code"] != 200:
         raise SystemExit("Unable to communicate with the CrowdStrike API. Check permissions.")
 
@@ -48,7 +40,7 @@ def cs_get_info(HOST_MATCH):
                         f"Searched for: {BOLD}{HOST_MATCH}{NOCOLOR}"
                         )
 
-    # Retrieve the details for these AIDs so we can lookup the hostnames
+    # Retrieve the details for these AIDs so we can look up the hostnames
     devices = hosts.get_device_details(ids=host_ids["body"]["resources"])["body"]["resources"]
 
     # Create a mapping dictionary from AID to hostname
@@ -75,16 +67,16 @@ def cs_get_info(HOST_MATCH):
         # Append this ID to our session list
         session_list.append(session_id)
         print(f"Session with {BOLD}{device_map[session]}{NOCOLOR} started successfully.",
-            f"[{session_id}]"
-            )
+              f"[{session_id}]"
+              )
 
     print(f"\nExecuting command (`{COMMAND}`) against target hosts.\n")
     # Execute our command against the hosts in our batch session
     cloud_request = rtr_admin.batch_admin_command(base_command="runscript",
-                                                batch_id=batch_id,
-                                                timeout_duration=f"{TIMEOUT}s",
-                                                command_string=f"runscript -Raw=```{COMMAND}```"
-                                                )
+                                                  batch_id=batch_id,
+                                                  timeout_duration=f"{TIMEOUT}s",
+                                                  command_string=f"runscript -Raw=```{COMMAND}```"
+                                                  )
 
     print("Closing sessions with target hosts.")
     # Close all of our open sessions with these hosts
@@ -99,16 +91,18 @@ def cs_get_info(HOST_MATCH):
         results = cloud_request["body"]["combined"]["resources"]
         for result in results:
             print(yellow(f"\n{BOLD}{device_map[result]}"))
-            host_name=device_map[result]
             out_data = results[result]
+            
+            # Initialize the lines variable here
+            lines = []
+
             if out_data["stdout"]:
                 lines = out_data["stdout"].strip().split('\n')
-            with open(output_file, "a") as file:
-                for line in lines:
-                    if "AMRunningMode" in line or "RealTimeProtectionEnabled" in line:
-                        print(green(line))
-                        file.write(f"{host_name}: {line}\n")
-                        
+            
+            for line in lines:
+                if "AMRunningMode" in line or "RealTimeProtectionEnabled" in line:
+                    print(green(line))
+                    
             if out_data["stderr"]:
                 print(out_data["stderr"])
             if out_data["errors"]:
@@ -129,4 +123,3 @@ with open('computers.env', 'r') as file:
         # Remove leading and trailing whitespace from the line
         HOST_MATCH = line1.strip()
         cs_get_info(HOST_MATCH)
-   

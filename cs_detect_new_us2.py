@@ -92,20 +92,27 @@ def fetch_crowdstrike_data(ids):
 
         if status == "new":
 
-            # Get the terminal width
-            terminal_width, _ = shutil.get_terminal_size()
-
-            # Create a new table
+            
             table = PrettyTable()
-
-            # Define the table columns
-            table.field_names = ["Hostname",  "Local IP", "Status",  "Technique", "CMD Line", "Filename", "Severity", "Parent CMD"]
-
-            # Add data to the table
-            table.add_row([hostname, local_ip, status, technique, cmdline, filename, severity, parent_cmdline])
+            table.border = True
+            # Add data to the table as separate rows
+            table.field_names = ["Attribute", "Value"]
+            table.add_row(["Timestamp", timestamp])
+            table.add_row(["Hostname", hostname])
+            table.add_row(["Local IP", local_ip])
+            table.add_row(["Status", status])
+            table.add_row(["Technique", technique])
+            table.add_row(["CMD Line", cmdline])
+            table.add_row(["Filename", filename])
+            table.add_row(["Severity", severity])
+            table.add_row(["Parent CMD", parent_cmdline])
 
             # Set the max width of the table to fit the terminal window
+            terminal_width, _ = shutil.get_terminal_size()
             table.max_width = terminal_width
+
+            # Customize the table view (optional)
+            table.align["Attribute"] = "l"  # Left-align the Attribute column
 
             # Print the table
             print(green(table))
