@@ -30,9 +30,54 @@ ISE_USER = config.get("ISE_USER")
 ISE_PASSWORD = config.get("ISE_PASSWORD")
 auth = HTTPBasicAuth(ISE_USER, ISE_PASSWORD)
 
+base_url = "https://" + ISE_IP + ":443/api/v1/pxgrid-direct/"
 
-MY_IP = input(blue("Please enter IP address: "))
+connector_name = input(blue("Connector name is: "))
+command = input(blue("Please enter status or update: "))
 print(red(f"+++++++++++++++++++++++++++++++++++++++++"))
 
 
-url = "https://" + ISE_IP + "/admin/API/mnt/Session/EndPointIPAddress/" + MY_IP
+
+
+auth = HTTPBasicAuth(ISE_USER, ISE_PASSWORD)
+headers = {"Content-Type": "application/json",
+           "Accept": "application/json"}
+
+
+if command == "status":
+    url = base_url + "syncNowStatus/" + connector_name
+    response = requests.get(url=url, auth=auth, headers=headers, verify=False)
+    info = (response.content)
+    info_data = info.decode("utf-8")
+    formatted_data = json.loads(info_data)
+    connector_name = formatted_data['response']['connector']['connectorName']
+    sync_status = formatted_data['response']['connector']['syncStatus']
+    print(connector_name, sync_status)
+elif command =="update":
+    url = base_url + "syncnow"
+    data = {
+    "connector": {
+        "SyncType": "FULL",
+        "connectorName": connector_name,
+        "description": "description"
+        }
+    }
+    response = requests.post(url, auth=auth, headers=headers, json=data, verify=False) 
+    print(response.content)
+     
+
+    if response.status_code == 200:
+        print("Request successful.")
+        print("Response:")
+        print(response.json())
+    else:
+        print("Request failed with status code:", response.status_code)
+    
+else:
+    print (red(f"wrong vlaue!!!"))
+
+
+
+
+
+    
