@@ -11,7 +11,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from urllib3.exceptions import InsecureRequestWarning
 import json
-from crayons import blue, red  # Uncomment if crayons is installed
+from crayons import blue, red  
 from dotenv import dotenv_values
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
