@@ -1,5 +1,5 @@
 
-__version__ = "1.2"
+__version__ = "1.3"
 __author__ = "Nir Rephael"
 __author_email__ = "nir-r@bynet.co.il"
 
@@ -66,7 +66,7 @@ elif command =="update":
     print(response.content)
      
 
-    if response.status_code == 200:
+    if response.status_code == 201:
         print("Request successful.")
         print("Response:")
         print(response.json())
