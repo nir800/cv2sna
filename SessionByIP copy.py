@@ -23,11 +23,10 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # Import env variables from dotenv file .env 
 
-config = dotenv_values("d:\sna\code\1.env1")
 
-ISE_IP = config.get("ISE_IP")
-ISE_USER = config.get("ISE_USER")
-ISE_PASSWORD = config.get("ISE_PASSWORD")
+ISE_IP = "192.168.103.4"
+ISE_USER = "admin"
+ISE_PASSWORD = "1q2w3e4rT"
 auth = HTTPBasicAuth(ISE_USER, ISE_PASSWORD)
 
 

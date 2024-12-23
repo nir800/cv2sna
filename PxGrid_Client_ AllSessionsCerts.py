@@ -75,11 +75,11 @@ json_response=r.json()
 # print(json.dumps(json_response,indent=2))
 count=0
 sessions = json_response['sessions']
-df = pd.DataFrame(sessions)
-selected_columns = ['timestamp', 'nasIdentifier', 'userName', 'ipAddresses', 'nasPortId']
-selected_df = df[selected_columns]
-pd.set_option('colheader_justify', 'center')
-print(selected_df)
+#df = pd.DataFrame(sessions)
+#selected_columns = ['timestamp', 'nasIdentifier', 'userName', 'ipAddresses', 'nasPortId']
+#selected_df = df[selected_columns]
+#pd.set_option('colheader_justify', 'center')
+#print(selected_df)
 
 for session in sessions:
     timestamp = session['timestamp']
